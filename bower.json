@@ -1,0 +1,21 @@
+{
+  "name": "CCGDungeon",
+  "version": "0.0.0",
+  "authors": [
+    "Griffin"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "q": "~1.0.1",
+    "lodash": "*",
+    "phaser": "*",
+    "jquery": "*"
+  }
+}

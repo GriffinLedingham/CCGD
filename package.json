@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "npm install && npm --prefix ./server install ./server && rm -r ./server/etc"
+    "setup": "npm install && npm --prefix ./server install ./server && rm -r ./server/etc && bower install"
   },
   "author": "Griffin",
   "license": "ISC",

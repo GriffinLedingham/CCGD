@@ -46,6 +46,13 @@ module.exports = function( grunt )
                 options: {
                     separator: '\n\n'
                 }
+            },
+            css:{
+                src:['client/styles/*.css'],
+                dest:'www/styles/styles.css',
+                options: {
+                    separator: '\n\n'
+                }
             }
         },
 
@@ -54,7 +61,6 @@ module.exports = function( grunt )
             dev:{
                 files:{
                     'www/index.html':'client/index.html',
-                    'www/':'images/**'
                 }
             }
         },
@@ -85,6 +91,16 @@ module.exports = function( grunt )
             {
                 files: ['client/**.html'],
                 tasks: [ 'copy'],
+                options:
+                {
+                    livereload: true
+                }
+            },
+
+            css:
+            {
+                files: ['client/styles/**.css'],
+                tasks: [ 'concat:css'],
                 options:
                 {
                     livereload: true

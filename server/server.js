@@ -10,6 +10,7 @@ var assert        = require('assert');
 var Sequelize     = require('sequelize');
 var User          = require('./models/user_model.js');
 var _             = require('lodash');
+var io            = require('socket.io')(http);
 
 var sequelize = new Sequelize('dungeon', 'root', 'password', {
   host: 'localhost',
@@ -45,5 +46,9 @@ var language = require('./language')();
 var models   = require('./models')(sequelize, store);
 var helpers  = require('./helpers')();
 var routes   = require('./routes')(app);
+
+io.on('connection', function(socket){
+
+});
 
 console.log('Server started.')

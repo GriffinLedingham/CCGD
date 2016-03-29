@@ -1,6 +1,7 @@
 module.exports = {
   modelFiles: [
-    'user'
+    'user',
+    'character'
   ],
   fields: {
     user: [
@@ -9,5 +10,5 @@ module.exports = {
       'email'
     ]
   },
-  forceSync: true
+  forceSync: false
 };

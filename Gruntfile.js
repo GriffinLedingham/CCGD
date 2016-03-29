@@ -61,6 +61,7 @@ module.exports = function( grunt )
             dev:{
                 files:{
                     'www/index.html':'client/index.html',
+                    'www/':'images/**'
                 }
             }
         },
@@ -112,7 +113,6 @@ module.exports = function( grunt )
               files:  [ 'server/**/**.js' ],
               tasks:  [ 'express:dev' ],
               options: {
-                livereload: true,
                 spawn: false // for grunt-contrib-watch v0.5.0+, "nospawn: true" for lower versions. Without this option specified express won't be reloaded
               }
             }

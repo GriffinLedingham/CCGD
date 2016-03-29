@@ -1,0 +1,41 @@
+function LoginView() {};
+
+LoginView.dom_id    = '#login_menu';
+
+LoginView.prototype.render = function(){
+  $('#interface').html(Framework.loadTemplate('loginMenu'));
+  this.setupBindings();
+};
+
+LoginView.prototype.destroy = function(){
+  this.destroyBindings();
+  $(LoginView.dom_id).remove();
+};
+
+LoginView.prototype.setupBindings = function(){
+  var socket = SocketManager.getSocket();
+
+  this.setupBinding({
+    parent:   socket,
+    key:      'login_callback',
+    callback: function(data){
+      if(data.txn) { Router.loadView('CharacterSelect', data); }
+      else { Interface.displayError(data); }
+    }
+  });
+
+  this.setupBinding({
+    parent:   $('.login-control'),
+    key:      'keypress',
+    callback: function(e){
+      if(e.which == 13) {
+        socket.emit('login_post',{
+          username: $('#username_input').val(),
+          password: $('#password_input').val(),
+        });
+      }
+    }
+  });
+};
+
+global.LoginView = module.exports = LoginView;

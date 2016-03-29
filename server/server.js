@@ -8,7 +8,7 @@ var app           = express();
 var http          = require('http').Server(app);
 var assert        = require('assert');
 var Sequelize     = require('sequelize');
-var User          = require('./models/user_model.js');
+var User          = require('./classes/user.js');
 var _             = require('lodash');
 var io            = require('socket.io')(http);
 
@@ -48,7 +48,8 @@ var helpers  = require('./helpers')();
 var routes   = require('./routes')(app);
 
 io.on('connection', function(socket){
-
+  var user = new User();
+  user.init(socket);
 });
 
 console.log('Server started.')

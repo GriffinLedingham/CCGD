@@ -6,7 +6,7 @@ var _ = require('lodash');
 
 module.exports = function(db, store) {
 	var that = this;
-	var User = db.define("User", {
+	var UserModel = db.define("User", {
 		username: { type: Sequelize.STRING, required: true },
 		email   : { type: Sequelize.STRING, required: true },
 		password: { type: Sequelize.STRING, required: true }
@@ -16,7 +16,7 @@ module.exports = function(db, store) {
     },
     classMethods: {
       associate: function() {
-        User.belongsTo(store.Session, {
+        UserModel.belongsTo(store.Session, {
           foreignKeyConstraint: true
         });
       },
@@ -24,21 +24,30 @@ module.exports = function(db, store) {
         return bcrypt.genSaltAsync(10)
         .then(function(salt){ return bcrypt.hashAsync(password, salt)})
         .then(function(hash) {
-          var data = {
-            username: username,
-            email: email,
-            password: hash
-          };
-          return User.create(data);
+          return UserModel.findOne({where:{username:username}})
+          .then(function(user){
+            if(user == null) {
+              var data = {
+                username: username,
+                email: email,
+                password: hash
+              };
+              return UserModel.create(data);
+            }
+            else {
+              return 'This username is in use.';
+            }
+          });
         })
         .then(function(user) {
           var result = {txn:false};
-          if(user != null) result = {txn: true, user: user.filter()};
+          if(user != null && typeof user != 'undefined' && typeof user != 'string') result = {txn: true, user: user.filter()};
+          if(typeof user == 'string') result.err = user;
           return result;
         });
       },
       getUser: function(userId, options) {
-        return User.findOne({where:{id:userId}})
+        return UserModel.findOne({where:{id:userId}})
         .then(function(user) {
           var result = false;
           if(user != null) result = user;
@@ -46,7 +55,7 @@ module.exports = function(db, store) {
         });
       },
       getUserByUsername: function(userName) {
-        return User.findOne({where:{username:userName}})
+        return UserModel.findOne({where:{username:userName}})
         .then(function(user) {
           var result = false;
           if(user != null) result = user;
@@ -61,5 +70,5 @@ module.exports = function(db, store) {
     }
   });
 
-	return User;
+	return UserModel;
 }

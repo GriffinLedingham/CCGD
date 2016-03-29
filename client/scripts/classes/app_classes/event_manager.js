@@ -15,6 +15,7 @@ EventManager.on = function(key, unique_id, callback){
 };
 
 EventManager.emit = function(key, data){
+  console.log('EventEmitter::Emit - Sending Event ' + key);
   if(typeof data == 'undefined') data = {};
   emitter.emit(key, data);
 };

@@ -1,3 +1,42 @@
-<script id="mainMenu" type="text/x-handlebars-template">
-  <div style="height:100px;width:100px;background:red;position:absolute;">Menu</div>
+<script id="loginMenu" type="text/x-handlebars-template">
+  <div id="login_menu">
+    <div class="center-align">Login</div>
+    <div>Username</div>
+    <input id="username_input" class="login-control" />
+    <div>Password</div>
+    <input id="password_input" class="login-control" />
+  </div>
+</script>
+
+<script id="characterSelectMenu" type="text/x-handlebars-template">
+  <div id="character_select_menu">
+    <div>Character Select</div>
+    {{#characters}}
+      <div class="character-select-item" data-c_id={{id}}>
+        {{name}}
+      </div>
+    {{/characters}}
+    <div id="create_character" class="button">Create Character</div>
+  </div>
+</script>
+
+<script id="characterCreateMenu" type="text/x-handlebars-template">
+  <div id="character_create_menu">
+    <div id="shade"></div>
+    <div id="create_character_modal">
+      <div class="center-align">Create Character</div>
+      <div>Character Name</div>
+      <input id="character_name_input" />
+      <div id="confirm_create_character" class="button">Create Character</div>
+    </div>
+  </div>
+</script>
+
+<script id="errorModal" type="text/x-handlebars-template">
+  <div id="error_wrapper">
+    <div id="shade"></div>
+    <div id="error_modal">
+      {{err}}
+    </div>
+  </div>
 </script>

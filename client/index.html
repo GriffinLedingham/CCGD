@@ -12,36 +12,38 @@
   <div id="templates"></div>
 
   <script>
+    var game_instance = false;
 
-  var game_instance = false;
+    function start(){
+      Framework.initTemplates();
+      game = new Game();
+      game.init('game');
 
-  function start(){
-    Framework.initTemplates();
-    game = new Game();
-    game.init('game');
-  };
+      SocketManager.init();
 
-  function error_loading(e)
-  {
-    console.error(e);
-  };
+      Router.loadView('login');
+    };
 
-  function onLoad() {
-    var webLoad = (document.URL.indexOf("http://") || document.URL.indexOf("https://") || document.URL.indexOf("localhost") || document.URL.indexOf("127.0.0.1") );
+    function error_loading(e)
+    {
+      console.error(e);
+    };
 
-    if ( webLoad === false ) {
-      document.addEventListener("deviceready", function(){ start( true ); }, false);
-    } else {
-      if (document.readyState === 'complete' || document.readyState === 'interactive')
-      {
-        start();
-      }
-      else
-      {
-        document.addEventListener('DOMContentLoaded', start, false);
+    function onLoad() {
+      var webLoad = (document.URL.indexOf("http://") || document.URL.indexOf("https://") || document.URL.indexOf("localhost") || document.URL.indexOf("127.0.0.1") );
+
+      if ( webLoad === false ) {
+        document.addEventListener("deviceready", function(){ start( true ); }, false);
+      } else {
+        if (document.readyState === 'complete' || document.readyState === 'interactive')
+        {
+          start();
+        }
+        else
+        {
+          document.addEventListener('DOMContentLoaded', start, false);
+        }
       }
     }
-  }
-
   </script>
 </body>

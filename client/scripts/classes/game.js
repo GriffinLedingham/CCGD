@@ -7,6 +7,8 @@ Game.prototype.init = function(id){
       update: this.update,
       render: this.render
   });
+
+  this.setupBindings();
 };
 
 Game.prototype.preload = function(){
@@ -23,6 +25,12 @@ Game.prototype.update = function(){
 
 Game.prototype.render = function(){
 
+};
+
+Game.prototype.setupBindings = function(){
+  EventManager.on('load_game', 'game', function(data){
+
+  });
 };
 
 global.Game = module.exports = Game;

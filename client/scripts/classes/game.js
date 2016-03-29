@@ -1,7 +1,7 @@
 function Game() {};
 
 Game.prototype.init = function(id){
-  this.instance = new Phaser.Game( 1024, 768, Phaser.AUTO, id, {
+  this.instance = new Phaser.Game( window.innerWidth, window.innerHeight, Phaser.AUTO, id, {
       preload: this.preload,
       create: this.create,
       update: this.update,

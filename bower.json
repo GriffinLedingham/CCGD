@@ -16,6 +16,7 @@
     "q": "~1.0.1",
     "lodash": "*",
     "phaser": "*",
-    "jquery": "*"
+    "jquery": "*",
+    "handlebars": "~4.0.5"
   }
 }

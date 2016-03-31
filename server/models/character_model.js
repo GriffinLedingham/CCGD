@@ -7,7 +7,12 @@ var _ = require('lodash');
 module.exports = function(db, store) {
   var that = this;
   var CharacterModel = db.define("Character", {
-    name: { type: Sequelize.STRING, required: true },
+    name:     { type: Sequelize.STRING,  required: true },
+    level:    { type: Sequelize.INTEGER, required: true },
+    skin:     { type: Sequelize.INTEGER, required: true },
+    last_map: { type: Sequelize.INTEGER, required: true},
+    last_x:   { type: Sequelize.INTEGER, required: true},
+    last_y:   { type: Sequelize.INTEGER, required: true}
   },{
     classMethods: {
       associate: function() {
@@ -16,7 +21,12 @@ module.exports = function(db, store) {
       createCharacter: function(name, userId) {
         var data = {
           name: name,
-          UserId: userId
+          UserId: userId,
+          level: 1,
+          skin: 0,
+          last_map: 0,
+          last_x: -1,
+          last_y: -1
         };
         return CharacterModel.create(data)
         .then(function(character) {
@@ -24,6 +34,9 @@ module.exports = function(db, store) {
           if(character != null) result = {txn: true, character: character};
           return result;
         });
+      },
+      updateCharacter: function(characterId, data) {
+        return CharacterModel.update(data, {where:{id:characterId}});
       },
       getUserCharacters: function(userId) {
         return CharacterModel.findAll({where:{UserId:userId}});

@@ -8,9 +8,7 @@ var app           = express();
 var http          = require('http').Server(app);
 var assert        = require('assert');
 var Sequelize     = require('sequelize');
-var User          = require('./classes/user.js');
 var _             = require('lodash');
-var io            = require('socket.io')(http);
 
 var sequelize = new Sequelize('dungeon', 'root', 'password', {
   host: 'localhost',
@@ -46,6 +44,15 @@ var language = require('./language')();
 var models   = require('./models')(sequelize, store);
 var helpers  = require('./helpers')();
 var routes   = require('./routes')(app);
+
+global.EasyStar = require('easystarjs');
+global.Map = module.exports = require('./classes/map.js');
+global.MapManager = module.exports = new require('./classes/map_manager.js');
+MapManager.init();
+
+var User          = require('./classes/user.js');
+
+global.io         = require('socket.io')(http);
 
 io.on('connection', function(socket){
   var user = new User();

@@ -15,11 +15,11 @@
     var game_instance = false;
 
     function start(){
+      SocketManager.init();
+
       Framework.initTemplates();
       game = new Game();
       game.init('game');
-
-      SocketManager.init();
 
       Router.loadView('login');
     };

@@ -29,11 +29,23 @@ LoginView.prototype.setupBindings = function(){
     key:      'keypress',
     callback: function(e){
       if(e.which == 13) {
+        $('.login-control').blur();
         socket.emit('login_post',{
           username: $('#username_input').val(),
           password: $('#password_input').val(),
         });
       }
+    }
+  });
+
+  this.setupBinding({
+    parent:   $('#login_button'),
+    key:      'click',
+    callback: function(e){
+      socket.emit('login_post',{
+        username: $('#username_input').val(),
+        password: $('#password_input').val(),
+      });
     }
   });
 };

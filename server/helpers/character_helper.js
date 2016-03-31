@@ -18,5 +18,9 @@ module.exports = function () {
     return character_Model.getCharacter(characterId);
   };
 
+  character_Helper.updateCharacter = function(characterId, data) {
+    return character_Model.updateCharacter(characterId, data);
+  };
+
   return character_Helper;
 }

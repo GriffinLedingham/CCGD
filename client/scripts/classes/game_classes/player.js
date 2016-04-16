@@ -12,6 +12,7 @@ Player.prototype.init = function(data, game, networked){
   this.game = game.instance;
 
   this.id = data.character.id;
+  console.log(data.character);
 
   if(data.character.last_x > 0 && data.character.last_y > 0){
     this.player = this.game.add.sprite(data.character.last_x*16, data.character.last_y*16, 'dude');
@@ -45,11 +46,28 @@ Player.prototype.init = function(data, game, networked){
   this.game_parent.players[this.id] = this;
 
   var socket = SocketManager.getSocket();
-  socket.emit('user_move', {x:Math.floor(this.player.x/16),y:Math.floor(this.player.y/16),id:this.id});
 };
 
 Player.prototype.follow = function(){
   this.game.camera.follow(this.player);
+};
+
+Player.prototype.animate = function(x, y, duration){
+  var xDelta = x - this.player.x;
+  var yDelta = y - this.player.y;
+  var totalTime = 0;
+  var that = this;
+  var animTime = function(){
+    setTimeout(function(){
+      totalTime += duration/20;
+      that.player.x += xDelta/20;
+      that.player.y += yDelta/20;
+      if(totalTime != duration){
+        animTime();
+      }
+    }, duration/20);
+  };
+  animTime();
 };
 
 global.Player = module.exports = Player;

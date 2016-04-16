@@ -29,6 +29,7 @@ Game.prototype.preload = function(){
   this.load.image('tiles-1', 'images/tiles-1.png');
   this.load.spritesheet('dude', 'images/dude.png', 32, 48);
   this.load.spritesheet('droid', 'images/droid.png', 32, 32);
+  this.load.spritesheet('guy', 'images/runningRpg.png');
   this.load.image('starSmall', 'images/star.png');
   this.load.image('starBig', 'images/star2.png');
   this.load.image('background', 'images/background2.png');
@@ -155,42 +156,14 @@ Game.prototype.setupEvents = function(){
     callback: function(data){
       if(typeof game.players[data.id] == 'undefined') {
         that.characterManager.loadNetworkedCharacter({character: data});
-        console.log(game.players[data.id]);
       }
-      // if(data.id != game.active_character.id) {
-        game.players[data.id].player.x = data.x*16;
-        // console.log(game.players[data.id].player);
-        game.players[data.id].player.y = data.y*16;
-        // if(typeof game.players[data.id].player.velocity == 'undefined') game.players[data.id].player.velocity = 0;
-        // game.instance.physics.arcade.moveToXY(game.players[data.id].player, data.x*16, data.y*16, 300);
 
-        // game.players[data.id].player.x = data.x;
-        // console.log(game.players[data.id].player);
-        // game.players[data.id].player.y = data.y;
-
+      // if(data.lastPos != undefined){
+      //   game.players[data.id].player.x = data.lastPos.x*16;
+      //   game.players[data.id].player.y = data.lastPos.y*16;
       // }
-    }
-  });
 
-  BindingManager.setupBinding({
-    parent:   socket,
-    key:      'user_coords_stop_callback',
-    callback: function(data){
-      if(typeof game.players[data.id] == 'undefined') {
-        that.characterManager.loadNetworkedCharacter({character: data});
-        console.log(game.players[data.id]);
-      }
-      if(data.id != game.active_character.id) {
-        // game.players[data.id].player.x = data.x;
-        // console.log(game.players[data.id].player);
-        // game.players[data.id].player.y = data.y;
-        // if(typeof game.players[data.id].player.velocity == 'undefined') game.players[data.id].player.velocity = 0;
-        // game.players[data.id].player.body.velocity = 0;
-        // game.players[data.id].player.x = data.x;
-        // console.log(game.players[data.id].player);
-        // game.players[data.id].player.y = data.y;
-
-      }
+      game.players[data.id].animate(data.x*16, data.y*16, data.duration);
     }
   });
 

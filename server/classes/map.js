@@ -24,8 +24,10 @@ Map.prototype.addCharacter = function(character){
 };
 
 Map.prototype.updateCharacterCoords = function(x, y, characterId){
-  this.characters[characterId].last_x = x;
-  this.characters[characterId].last_y = y;
+  if(typeof this.characters[characterId] != 'undefined'){
+    this.characters[characterId].last_x = x;
+    this.characters[characterId].last_y = y;
+  }
 };
 
 Map.prototype.removeCharacter = function(characterId){

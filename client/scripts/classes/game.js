@@ -158,12 +158,16 @@ Game.prototype.setupEvents = function(){
         that.characterManager.loadNetworkedCharacter({character: data});
       }
 
-      // if(data.lastPos != undefined){
-      //   game.players[data.id].player.x = data.lastPos.x*16;
-      //   game.players[data.id].player.y = data.lastPos.y*16;
-      // }
+      if(data.lastPos != undefined){
+        // game.players[data.id].player.x = data.lastPos.x*16;
+        // game.players[data.id].player.y = data.lastPos.y*16;
+        game.players[data.id].animate(data.x*16, data.y*16, data.duration);
+      }
+      else {
+        game.players[data.id].player.x = data.x*16;
+        game.players[data.id].player.y = data.y*16;
+      }
 
-      game.players[data.id].animate(data.x*16, data.y*16, data.duration);
     }
   });
 

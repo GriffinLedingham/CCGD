@@ -5,11 +5,22 @@ User.characterId = null;
 User.character = null;
 User.username = null;
 User.mapId = null;
+User.currentMap = null;
 User.position = {x:0,y:0};
+User.easyStar = null;
 
 User.prototype.init = function(socket){
   this.socket = socket;
   this.setupBindings();
+
+  var EasyStar = require('easystarjs');
+  this.easyStar = new EasyStar.js();
+
+  var that = this;
+  var doEasyLoop = setInterval(function() {
+    that.easyStar.setIterationsPerCalculation(1000);
+    that.easyStar.calculate();
+  }, 30);
 };
 
 User.prototype.setupBindings = function(){
@@ -50,6 +61,9 @@ User.prototype.setupBindings = function(){
 
   this.socket.on('load_map', function(data){
     var map = MapManager.getMap(data.mapId);
+    that.currentMap = map.map;
+    that.easyStar.setGrid(map.map.grid);
+    that.easyStar.setAcceptableTiles([0]);
     character_Helper.getCharacter(that.characterId)
     .then(function(response){
       that.mapId = data.mapId;
@@ -63,7 +77,30 @@ User.prototype.setupBindings = function(){
 
   this.socket.on('user_move', function(data){
     that.position = {x: data.x, y: data.y};
-    that.socket.broadcast.to('map_' + that.mapId).emit('user_coords_callback', {x: data.x, y: data.y, id: that.characterId});
+    that.socket.broadcast.to('map_' + that.mapId).emit('user_coords_callback', {x: that.position.x, y: that.position.y, id: that.characterId});
+  });
+
+  that.socket.on('click_tile', function(data){
+    that.easyStar.findPath(Math.floor(that.position.x), Math.floor(that.position.y), data.x, data.y, function( path, er ) {
+      if (path === null) {
+        console.log(path);
+      } else {
+          console.log(path);
+          var setTime = function(){
+            setTimeout(function(){
+              var coords = path.shift();
+              console.log(coords);
+              that.position = {x: coords.x, y: coords.y};
+              character_Helper.updateCharacter(that.characterId, {last_x: that.position.x, last_y: that.position.y});
+              io.sockets.in('map_' + that.mapId).emit('user_coords_callback', {x: coords.x, y: coords.y, id: that.characterId});
+              if(path.length > 0) {
+                setTime();
+              }
+            },100);
+          };
+          setTime();
+      }
+    });
   });
 
   this.socket.on('disconnect', function () {

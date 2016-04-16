@@ -14,7 +14,7 @@ Player.prototype.init = function(data, game, networked){
   this.id = data.character.id;
 
   if(data.character.last_x > 0 && data.character.last_y > 0){
-    this.player = this.game.add.sprite(data.character.last_x, data.character.last_y, 'dude');
+    this.player = this.game.add.sprite(data.character.last_x*16, data.character.last_y*16, 'dude');
   }
   else{
     this.player = this.game.add.sprite(32, 32, 'dude');
@@ -29,6 +29,9 @@ Player.prototype.init = function(data, game, networked){
 
     this.follow();
   }
+  // else {
+  //   this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+  // }
 
   this.player.animations.add('left', [0, 1, 2, 3], 10, true);
   this.player.animations.add('turn', [4], 20, true);
@@ -40,6 +43,9 @@ Player.prototype.init = function(data, game, networked){
   this.jumpTimer = 0;
 
   this.game_parent.players[this.id] = this;
+
+  var socket = SocketManager.getSocket();
+  socket.emit('user_move', {x:Math.floor(this.player.x/16),y:Math.floor(this.player.y/16),id:this.id});
 };
 
 Player.prototype.follow = function(){

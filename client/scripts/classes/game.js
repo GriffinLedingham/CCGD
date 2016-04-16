@@ -42,7 +42,9 @@ Game.prototype.create = function(){
   this.bg = this.add.tileSprite(0, 0, 800, 600, 'background');
   this.bg.fixedToCamera = true;
 
-  this.physics.arcade.gravity.y = 250;
+  // this.physics.arcade.gravity.y = 250;
+
+  game.instance.input.onDown.add(clickHandle, this);
 };
 
 Game.prototype.update = function(){
@@ -52,6 +54,10 @@ Game.prototype.update = function(){
   _.each(game.players,function(player){
     if(player.id == game.active_character.id) {
       that.physics.arcade.collide(player.player, game.instance.layer);
+
+      _.each(game.players, function(collide_player) {
+        that.physics.arcade.collide(player.player, collide_player);
+      });
 
       player.player.body.velocity.x = 0;
 
@@ -102,7 +108,7 @@ Game.prototype.update = function(){
       }
 
       if(game.active_character != null && typeof game.active_character != 'undefined'){
-        socket.emit('user_move', {x:player.player.x,y:player.player.y,id:game.active_character.id});
+        // socket.emit('user_move', {x:player.player.x,y:player.player.y,id:game.active_character.id});
       }
     }
 
@@ -128,7 +134,7 @@ Game.prototype.setupEvents = function(){
     parent:   socket,
     key:      'map_data_callback',
     callback: function(data){
-      that.mapManager.loadMap(data.map);
+      game.map = that.mapManager.loadMap(data.map);
       that.characterManager.loadCharacter(data);
       game.active_character = data.character;
     }
@@ -151,15 +157,55 @@ Game.prototype.setupEvents = function(){
         that.characterManager.loadNetworkedCharacter({character: data});
         console.log(game.players[data.id]);
       }
+      // if(data.id != game.active_character.id) {
+        game.players[data.id].player.x = data.x*16;
+        // console.log(game.players[data.id].player);
+        game.players[data.id].player.y = data.y*16;
+        // if(typeof game.players[data.id].player.velocity == 'undefined') game.players[data.id].player.velocity = 0;
+        // game.instance.physics.arcade.moveToXY(game.players[data.id].player, data.x*16, data.y*16, 300);
+
+        // game.players[data.id].player.x = data.x;
+        // console.log(game.players[data.id].player);
+        // game.players[data.id].player.y = data.y;
+
+      // }
+    }
+  });
+
+  BindingManager.setupBinding({
+    parent:   socket,
+    key:      'user_coords_stop_callback',
+    callback: function(data){
+      if(typeof game.players[data.id] == 'undefined') {
+        that.characterManager.loadNetworkedCharacter({character: data});
+        console.log(game.players[data.id]);
+      }
       if(data.id != game.active_character.id) {
-        game.players[data.id].player.x = data.x;
-        console.log(game.players[data.id].player);
-        game.players[data.id].player.y = data.y;
+        // game.players[data.id].player.x = data.x;
+        // console.log(game.players[data.id].player);
+        // game.players[data.id].player.y = data.y;
+        // if(typeof game.players[data.id].player.velocity == 'undefined') game.players[data.id].player.velocity = 0;
+        // game.players[data.id].player.body.velocity = 0;
+        // game.players[data.id].player.x = data.x;
+        // console.log(game.players[data.id].player);
+        // game.players[data.id].player.y = data.y;
 
       }
     }
   });
 
+};
+
+var clickHandle = function(data){
+  var socket = SocketManager.getSocket();
+
+  var x = data.worldX;
+  var y = data.worldY;
+
+  if(typeof game.map != 'undefined') {
+    var tile = game.map.getTile(x, y);
+    socket.emit('click_tile', tile);
+  }
 };
 
 global.Game = module.exports = Game;

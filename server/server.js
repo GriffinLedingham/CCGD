@@ -45,7 +45,6 @@ var models   = require('./models')(sequelize, store);
 var helpers  = require('./helpers')();
 var routes   = require('./routes')(app);
 
-global.EasyStar = require('easystarjs');
 global.Map = module.exports = require('./classes/map.js');
 global.MapManager = module.exports = new require('./classes/map_manager.js');
 MapManager.init();

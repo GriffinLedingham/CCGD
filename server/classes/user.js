@@ -96,12 +96,14 @@ User.prototype.setupBindings = function(){
       } else {
           clearTimeout(that.timeout);
           that.path = path;
-          var duration = 150;
+          var duration = 200;
           var setTime = function(){
             that.timeout = setTimeout(function(){
               setTimeContent();
               if(path.length > 0) {
                 setTime();
+              }else{
+                io.sockets.in('map_' + that.mapId).emit('user_coords_end_callback', {id: that.characterId});
               }
             },duration);
           };

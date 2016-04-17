@@ -25,8 +25,8 @@ module.exports = function(db, store) {
           level: 1,
           skin: 0,
           last_map: 0,
-          last_x: -1,
-          last_y: -1
+          last_x: 3,
+          last_y: 3
         };
         return CharacterModel.create(data)
         .then(function(character) {

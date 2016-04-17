@@ -1,6 +1,5 @@
 function Map() {};
 
-//Move this to a map data file, to correspond with a tiled map
 Map.tilemap = null;
 Map.grid = null;
 Map.height = null;
@@ -43,7 +42,8 @@ var buildGrid = function(data, width, height){
   for(var i = 0;i<height;i++) {
     var row = [];
     for(var j = 0;j<width;j++) {
-      row.push(data.layers[0].data[(i*width) + j]);
+      //This needs to be adjusted to hit detect on the hit layer, not the last layer in index
+      row.push(data.layers[data.layers.length-1].data[(i*width) + j]);
     }
     grid.push(row);
   }

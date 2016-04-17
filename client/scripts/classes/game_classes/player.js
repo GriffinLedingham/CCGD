@@ -2,7 +2,6 @@ function Player() {};
 
 Player.player;
 Player.facing = 'left';
-Player.jumpTimer;
 Player.cursors;
 Player.jumpButton;
 Player.id;
@@ -14,7 +13,6 @@ Player.prototype.init = function(data, game, networked){
   this.player = this.game.add.sprite(data.character.last_x*32, data.character.last_y*32, 'guy');
 
   if(!networked) {
-    this.player.body.setSize(20, 32, 5, 16);
     this.follow();
   }
 
@@ -26,6 +24,11 @@ Player.prototype.init = function(data, game, networked){
 
 Player.prototype.follow = function(){
   this.game.camera.follow(this.player);
+};
+
+Player.prototype.requestAttack = function(){
+  var socket = SocketManager.getSocket();
+  socket.emit('request_attack', {type: 'slash1'});
 };
 
 Player.prototype.doAttack = function(attackName){
@@ -49,8 +52,8 @@ Player.prototype.doAttack = function(attackName){
 };
 
 Player.prototype.positionCurrentAttack = function(){
-  if(that.current_attack != null && typeof that.current_attack != 'undefined'){
-    that.current_attack.x = that.player.x + that.player.width/2;that.current_attack.y = that.player.y + that.player.height/2;
+  if(this.current_attack != null && typeof this.current_attack != 'undefined'){
+    this.current_attack.x = this.player.x + this.player.width/2;this.current_attack.y = this.player.y + this.player.height/2;
   }
 };
 

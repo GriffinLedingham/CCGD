@@ -36,6 +36,7 @@ Game.prototype.preload = function(){
 };
 
 Game.prototype.create = function(){
+  this.physics.startSystem(Phaser.Physics.ARCADE);
   this.stage.backgroundColor = '#000000';
   game.instance.input.onDown.add(clickHandle, this);
 };
@@ -46,8 +47,9 @@ Game.prototype.update = function(){
   var count = 0;
   _.each(game.players,function(player){
     if(player.id == game.active_character.id) {
-      if(player.jumpButton.isDown){
-        player.doAttack('slash1');
+      if(typeof player.jumpButton != 'undefined'
+        && player.jumpButton.isDown){
+        player.requestAttack();
       }
     }
     count++;
@@ -110,6 +112,16 @@ Game.prototype.setupEvents = function(){
     callback: function(data){
       if(typeof game.players[data.id] != 'undefined') {
         game.players[data.id].player.animations.stop();
+      }
+    }
+  });
+
+  BindingManager.setupBinding({
+    parent:   socket,
+    key:      'player_attack_callback',
+    callback: function(data){
+      if(typeof game.players[data.id] != 'undefined') {
+        game.players[data.id].doAttack(data.type);
       }
     }
   });

@@ -110,16 +110,23 @@ User.prototype.setupBindings = function(){
 
           var setTimeContent = function(){
             var coords = that.path.shift();
-            var lastPos = {x: that.position.x, y: that.position.y};
-            that.position = {x: coords.x, y: coords.y};
-            that.currentMap.map.updateCharacterCoords(coords.x, coords.y, that.characterId);
-            character_Helper.updateCharacter(that.characterId, {last_x: that.position.x, last_y: that.position.y});
-            io.sockets.in('map_' + that.mapId).emit('user_coords_callback', {x: coords.x, y: coords.y, id: that.characterId, duration: duration, lastPos: lastPos});
+            if(typeof coords != 'undefined') {
+              var lastPos = {x: that.position.x, y: that.position.y};
+              that.position = {x: coords.x, y: coords.y};
+              that.currentMap.map.updateCharacterCoords(coords.x, coords.y, that.characterId);
+              character_Helper.updateCharacter(that.characterId, {last_x: that.position.x, last_y: that.position.y});
+              io.sockets.in('map_' + that.mapId).emit('user_coords_callback', {x: coords.x, y: coords.y, id: that.characterId, duration: duration, lastPos: lastPos});
+            }
           }
           setTimeContent();
           setTime();
       }
     });
+  });
+
+  this.socket.on('request_attack', function (data) {
+    var type = data.type;
+    io.sockets.in('map_' + that.mapId).emit('player_attack_callback', {id: that.characterId, type: type});
   });
 
   this.socket.on('disconnect', function () {

@@ -70,6 +70,14 @@ Game.prototype.setupEvents = function(){
     }
   });
 
+  EventManager.on('render_interface', 'game', function(data){
+    var key = data.key;
+    var payload = data.data;
+    var teardown = false;
+    if(data.teardown) teardown = true;
+    Router.loadView(key, payload, teardown);
+  });
+
   BindingManager.setupBinding({
     parent:   socket,
     key:      'map_data_callback',

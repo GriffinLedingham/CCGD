@@ -91,6 +91,10 @@ User.prototype.setupBindings = function(){
   });
 
   that.socket.on('click_tile', function(data){
+    if(data.x >= that.currentMap.map.width
+      || data.y >= that.currentMap.map.height) {
+      return;
+    }
     that.easyStar.findPath(Math.floor(that.position.x), Math.floor(that.position.y), data.x, data.y, function( path, er ) {
       if (path === null) {
       } else {
@@ -103,6 +107,7 @@ User.prototype.setupBindings = function(){
               if(path.length > 0) {
                 setTime();
               }else{
+                character_Helper.updateCharacter(that.characterId, {last_x: that.position.x, last_y: that.position.y});
                 io.sockets.in('map_' + that.mapId).emit('user_coords_end_callback', {id: that.characterId});
               }
             },duration);
@@ -114,7 +119,6 @@ User.prototype.setupBindings = function(){
               var lastPos = {x: that.position.x, y: that.position.y};
               that.position = {x: coords.x, y: coords.y};
               that.currentMap.map.updateCharacterCoords(coords.x, coords.y, that.characterId);
-              character_Helper.updateCharacter(that.characterId, {last_x: that.position.x, last_y: that.position.y});
               io.sockets.in('map_' + that.mapId).emit('user_coords_callback', {x: coords.x, y: coords.y, id: that.characterId, duration: duration, lastPos: lastPos});
             }
           }

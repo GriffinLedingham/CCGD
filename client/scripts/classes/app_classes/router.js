@@ -8,9 +8,9 @@ Router.destroyView = function(key, data) {
   }
 };
 
-Router.loadView = function(key, data){
+Router.loadView = function(key, data, teardown){
   if(typeof data == 'undefined') data = {};
-  if(this.currentView != null) {
+  if(this.currentView != null && teardown) {
     this.currentView.destroy();
   }
 

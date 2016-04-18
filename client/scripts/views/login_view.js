@@ -19,7 +19,7 @@ LoginView.prototype.setupBindings = function(){
     parent:   socket,
     key:      'login_callback',
     callback: function(data){
-      if(data.txn) { Router.loadView('CharacterSelect', data); }
+      if(data.txn) { Router.loadView('CharacterSelect', data, true); }
       else { Interface.displayError(data); }
     }
   });

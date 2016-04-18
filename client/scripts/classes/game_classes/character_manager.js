@@ -9,12 +9,12 @@ CharacterManager.prototype.init = function(game){
 
 CharacterManager.prototype.loadCharacter = function(data){
   var player = new Player();
-  player.init(data, this.game_parent, false);
+  this.game_parent.players[data.character.id] = player.init(data, this.game_parent, false);
 };
 
 CharacterManager.prototype.loadNetworkedCharacter = function(data){
   var player = new Player();
-  player.init(data, this.game_parent, true);
+  this.game_parent.players[data.character.id] = player.init(data, this.game_parent, true);
 };
 
 global.CharacterManager = module.exports = CharacterManager;

@@ -18,8 +18,8 @@ Player.prototype.init = function(data, game, networked){
 
   this.setPlayerAnimations();
   this.setButtonBindings();
-  this.game_parent.players[this.id] = this;
-  var socket = SocketManager.getSocket();
+
+  return this;
 };
 
 Player.prototype.follow = function(){

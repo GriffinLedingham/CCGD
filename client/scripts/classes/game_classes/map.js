@@ -13,7 +13,7 @@ Map.prototype.init = function(data, game){
   this.game.load.tilemap('map'+data.id, null, data.map.tilemap, Phaser.Tilemap.TILED_JSON);
 
   this.game.map = this.game.add.tilemap('map'+data.id);
-  this.game.map.addTilesetImage('grass_tilemap');
+  this.game.map.addTilesetImage('grass_tilemap_mid');
   this.game.map.setCollisionByExclusion([ 13, 14, 15, 16, 46, 47, 48, 49, 50, 51 ]);
   this.game.layer = this.game.map.createLayer('Tile Layer 1');
   this.game.layer2 = this.game.map.createLayer('Tile Layer 2');

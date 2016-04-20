@@ -10,7 +10,7 @@ Player.prototype.init = function(data, game, networked){
   this.game_parent = game;
   this.game = game.instance;
   this.id = data.character.id;
-  this.player = this.game.add.sprite(data.character.last_x*32, data.character.last_y*32, 'guy');
+  this.player = this.game.add.sprite(data.character.last_x*GameConfig.tileWidth, data.character.last_y*GameConfig.tileHeight, 'guy');
 
   if(!networked) {
     this.follow();
@@ -60,7 +60,6 @@ Player.prototype.positionCurrentAttack = function(){
 Player.prototype.animate = function(x, y, duration){
   var xDelta = x - this.player.x;
   var yDelta = y - this.player.y;
-  console.log(xDelta, yDelta);
   this.animateSprite(xDelta, yDelta);
   var totalTime = 0;
   var that = this;

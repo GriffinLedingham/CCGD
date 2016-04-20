@@ -27,24 +27,24 @@ module.exports = { "height":32,
     {
 
     },
- "tileheight":32,
+ "tileheight":64,
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/Git\/CCGD\/images\/grass_tilemap.png",
-         "imageheight":512,
-         "imagewidth":960,
+         "image":"..\/Git\/CCGD\/images\/grass_tilemap_mid.png",
+         "imageheight":1024,
+         "imagewidth":1920,
          "margin":0,
-         "name":"grass_tilemap",
+         "name":"grass_tilemap_mid",
          "properties":
             {
 
             },
          "spacing":0,
-         "tileheight":32,
-         "tilewidth":32
+         "tileheight":64,
+         "tilewidth":64
         }],
- "tilewidth":32,
+ "tilewidth":64,
  "version":1,
  "width":32
 };

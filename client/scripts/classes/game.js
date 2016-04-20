@@ -25,14 +25,9 @@ Game.prototype.init = function(id){
 };
 
 Game.prototype.preload = function(){
-  this.load.image('grass_tilemap', 'images/grass_tilemap.png');
-  this.load.spritesheet('dude', 'images/dude.png', 32, 48);
-  this.load.spritesheet('droid', 'images/droid.png', 32, 32);
-  this.load.spritesheet('guy', 'images/guysmall.png', 29.8, 48);
-  this.load.spritesheet('slash1', 'images/slash4.png', 75, 75);
-  this.load.image('starSmall', 'images/star.png');
-  this.load.image('starBig', 'images/star2.png');
-  this.load.image('background', 'images/background2.png');
+  this.load.image('grass_tilemap_mid', 'images/grass_tilemap_mid.png');
+  this.load.spritesheet('guy', 'images/guymid.png', 60, 96);
+  this.load.spritesheet('slash1', 'images/slash5.png', 225, 225);
 };
 
 Game.prototype.create = function(){
@@ -105,11 +100,11 @@ Game.prototype.setupEvents = function(){
         that.characterManager.loadNetworkedCharacter({character: data});
       }
       if(data.lastPos != undefined){
-        game.players[data.id].animate(data.x*32, data.y*32, data.duration);
+        game.players[data.id].animate(data.x*GameConfig.tileWidth, data.y*GameConfig.tileHeight, data.duration);
       }
       else {
-        game.players[data.id].player.x = data.x*32;
-        game.players[data.id].player.y = data.y*32;
+        game.players[data.id].player.x = data.x*GameConfig.tileWidth;
+        game.players[data.id].player.y = data.y*GameConfig.tileHeight;
       }
     }
   });

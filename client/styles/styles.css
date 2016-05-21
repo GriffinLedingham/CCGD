@@ -24,6 +24,19 @@ body {
   padding:    20px;
 }
 
+#signup_menu {
+  position:   absolute;
+  display:    block;
+  left:       0px;
+  right:      0px;
+  width:      300px;
+  background: #1B1B1B;
+  color:      white;
+  margin:     auto;
+  margin-top: 300px;
+  padding:    20px;
+}
+
 #username_input {
   width:      100%;
 }

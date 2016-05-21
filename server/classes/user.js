@@ -40,6 +40,13 @@ User.prototype.setupBindings = function(){
     });
   });
 
+  this.socket.on('signup_post', function(data){
+    auth_Helper.signupUser(data.username,data.password,'')
+    .then(function(response){
+      
+    });
+  });
+
   this.socket.on('get_character_list', function(){
     character_Helper.getUserCharacters(that.id)
     .then(function(characters){

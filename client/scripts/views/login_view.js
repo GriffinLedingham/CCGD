@@ -48,6 +48,14 @@ LoginView.prototype.setupBindings = function(){
       });
     }
   });
+
+  this.setupBinding({
+    parent:   $('#go_signup_button'),
+    key:      'click',
+    callback: function(e){
+      Router.loadView('Signup', {}, true);
+    }
+  });
 };
 
 global.LoginView = module.exports = LoginView;

@@ -12,7 +12,7 @@ var _             = require('lodash');
 
 var sequelize = new Sequelize('dungeon', 'root', 'password', {
   host: 'localhost',
-  dialect: 'mysql',
+  dialect: 'sqlite',
   pool: {
     max: 5,
     min: 0,
